@@ -42,7 +42,7 @@
     <string name="dialog_permissions_dismiss">விலக்குக</string>
     <string name="snack_permissions_no_permission">தேவையான அணுகல் மறுக்கப்பட்டன; பதிவித்தலைத் தொடங்க அமைப்புகள் செயலியிலிருந்து அவற்றைச் செயற்படுத்துக</string>
     <string name="snack_permissions_no_permission_location">இருப்பிட அணுகல் மறுக்கப்பட்டது;  உமது பதிவுகளைக் குறிக்க அமைப்புகள் செயலியிலிருந்து அதைச் செயற்படுத்துக</string>
-    <string name="main_sound_action">ஒலியைப் பதிவெடுக்க</string>
+    <string name="main_sound_action">பதிவுசெய்க</string>
     <string name="list_title">என் பதிவுகள்</string>
     <string name="list_error_empty">உம் எல்லாப் பதிவுகளும் இங்குக் காட்டப்படும்</string>
     <string name="list_edit_title">பதிவித்தல் பெயரைத் திருத்துக</string>
