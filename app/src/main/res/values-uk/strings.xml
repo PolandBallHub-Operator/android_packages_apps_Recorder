@@ -4,7 +4,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <string name="app_name">Recorder</string>
+    <string name="app_name">Диктофон</string>
     <string name="share">Поділитися</string>
     <string name="share_selected">Поширити обрані</string>
     <string name="stop">Зупинити</string>
@@ -29,14 +29,19 @@
     <string name="sound_recording_title_paused">Призупинено</string>
     <string name="sound_last_title">Останній запис</string>
     <string name="sound_channel_title">Запис звуку</string>
+    <string name="sound_channel_desc">Постійне сповіщення про запис звуку та сповіщення про завершення</string>
     <string name="settings_title">Параметри</string>
     <string name="settings_location_message">Позначати записи своїм місцеперебуванням</string>
     <string name="settings_quality_high">Запис у високій якості</string>
     <string name="dialog_permissions_title">Дозволи</string>
-    <string name="dialog_permissions_mic">Додаток «Звукозаписувач» потребує доступ до мікрофону для здійснення звукозапису</string>
-    <string name="dialog_permissions_phone">Додатку «Recorder» потрібен доступ до стану телефону, щоб припиняти аудіозапис під час дзвінка</string>
-    <string name="dialog_permissions_mic_phone">Додатку «Recorder» потрібен доступ до мікрофону для аудіозапису і доступ до стану телефону, щоб припиняти аудіозапис під час дзвінка</string>
-    <string name="dialog_permissions_location">Recorder потребує дозволу визначення місцеперебування, щоб автоматично позначати ваші записи й допомагати вам їх упорядковувати</string>
+    <string name="dialog_permissions_mic">Диктофону треба доступ до мікрофона для запису звуку</string>
+    <string name="dialog_permissions_phone">Диктофону треба доступ до стану телефона, щоб не записувати під час виклику</string>
+    <string name="dialog_permissions_notifications">Диктофон потребує дозволу надсилати сповіщення для показу елементів керування записом</string>
+    <string name="dialog_permissions_mic_phone">Диктофону треба доступ до мікрофона для запису звуку і до стану телефону, щоб не записувати під час виклику</string>
+    <string name="dialog_permissions_mic_notifications">Диктофону треба доступ до мікрофона для запису звуку і дозвіл на сповіщення для показу елементів керування записом</string>
+    <string name="dialog_permissions_phone_notifications">Диктофону потрібен доступ до стану телефону, щоб не записувати під час виклику, а також дозвіл на сповіщення для показу елементів керування записом</string>
+    <string name="dialog_permissions_mic_phone_notifications">Диктофону треба доступ до мікрофона для запису звуку, доступ до стану телефону, щоб не записувати під час виклику, а також дозвіл на сповіщення для показу елементів керування записом</string>
+    <string name="dialog_permissions_location">Диктофону треба доступ до місцеперебування, щоб автоматично позначати записи й допомагати їх упорядковувати</string>
     <string name="dialog_permissions_ask">Запитайте ще раз</string>
     <string name="dialog_permissions_dismiss">Відхилити</string>
     <string name="snack_permissions_no_permission">Відмовлено в необхідних дозволах. Увімкніть їх у налаштуваннях, щоб почати запис</string>
@@ -51,4 +56,10 @@
     <string name="delete_all_message">Точно видалити всі записи? Скасувати це неможливо</string>
     <string name="delete_selected_title">Видалити обрані</string>
     <string name="delete_selected_message">Точно видалити обрані записи? Скасувати це неможливо</string>
+    <plurals name="recording_selection_count">
+        <item quantity="one">%d вибрано</item>
+        <item quantity="few">%d вибрано</item>
+        <item quantity="many">%d вибрано</item>
+        <item quantity="other">%d вибрано</item>
+    </plurals>
 </resources>
