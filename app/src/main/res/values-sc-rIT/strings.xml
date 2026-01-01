@@ -4,8 +4,51 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
+    <string name="app_name">Registradora</string>
     <string name="share">Cumpartzi</string>
+    <string name="share_selected">Cumpartzi sa seletzione</string>
+    <string name="stop">Firma</string>
+    <string name="play">Riprodui</string>
+    <string name="pause">Pàusa</string>
+    <string name="resume">Torra a cumintzare</string>
     <string name="delete">Iscantzella</string>
+    <string name="delete_all">Cantzella totu</string>
+    <string name="delete_selected">Cantzella cussos seletzionados</string>
     <string name="cancel">Annulla</string>
+    <string name="rename">Torra a nominare</string>
+    <string name="delete_title">Cantzellende sa registratzione</string>
+    <string name="delete_recording_message">Seguru chi boles cantzellare custa registratzione? Custu non podet èssere annulladu</string>
+    <string name="confirm">Cunfirma</string>
+    <string name="discard">Iscarta</string>
+    <string name="record_again">Torra a registrare</string>
+    <string name="confirm_result_title">Boles impreare sa registratzione?</string>
+    <string name="confirm_result_message">Boles impreare s\'ùrtima registratzione?</string>
+    <string name="sound_notification_title">Registradore àudio</string>
+    <string name="sound_notification_message">Durada de s\'àudio: %1$s</string>
+    <string name="sound_recording_title_working">Registratzione in cursu</string>
+    <string name="sound_recording_title_paused">In pàusa</string>
+    <string name="sound_last_title">Ùrtima registratzione</string>
     <string name="sound_channel_title">Registratzione àudio</string>
+    <string name="settings_title">Cunfiguratziones</string>
+    <string name="settings_location_message">Eticheta is registratziones tuas cun sa positzione atuale</string>
+    <string name="settings_quality_high">Registra in calidade arta</string>
+    <string name="dialog_permissions_title">Permissos</string>
+    <string name="dialog_permissions_location">Su registradore tenet bisòngiu de permissu pro atzèdere a sa positzione in manera de etichetare is registratziones e ti agiudare a ddas organizare</string>
+    <string name="dialog_permissions_ask">Torra a preguntare</string>
+    <string name="dialog_permissions_dismiss">Iscarta</string>
+    <string name="snack_permissions_no_permission_location">Permissu de positzione denegadu. Ativa·ddu dae s\'aplicatzione Cunfiguratzione pro etichetare is registratziones tuas</string>
+    <string name="main_sound_action">Registra su sonu</string>
+    <string name="list_title">Is registratziones mias</string>
+    <string name="list_error_empty">Totu is registratziones tuas ant a èssere mustradas inoghe</string>
+    <string name="list_edit_title">Muda su nòmine de sa registratzione</string>
+    <string name="list_edit_confirm">Muda</string>
+    <string name="list_item_menu">Àteras atziones</string>
+    <string name="delete_all_title">Cantzella totu</string>
+    <string name="delete_all_message">Seguru chi boles cantzellare totu is registratziones? Custu non podet èssere annulladu</string>
+    <string name="delete_selected_title">Cantzella is elementos seletzionados</string>
+    <string name="delete_selected_message">Seguru chi boles cantzellare is registratziones seletzionadas? Custu non podet èssere annulladu</string>
+    <plurals name="recording_selection_count">
+        <item quantity="one">%d seletzionadu</item>
+        <item quantity="other">%d seletzionados</item>
+    </plurals>
 </resources>
