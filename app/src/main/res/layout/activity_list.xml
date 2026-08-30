@@ -17,18 +17,19 @@
         android:paddingEnd="20dp">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp">
+            android:layout_height="80dp">
             <com.google.android.material.search.SearchBar
                 android:id="@+id/searchBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="56dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="64dp"
                 android:hint="@string/search_recordings"
                 app:strokeWidth="0dp" />
             <ImageButton
                 android:id="@+id/settingsButton"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_gravity="end|center_vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/settings_title"

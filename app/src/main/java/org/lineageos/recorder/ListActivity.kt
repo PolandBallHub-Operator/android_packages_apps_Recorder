@@ -49,11 +49,13 @@ import org.lineageos.recorder.utils.RecordIntentHelper
 import org.lineageos.recorder.viewmodels.RecordingsViewModel
 
 class ListActivity : AppCompatActivity() {
+    private val Int.dp: Int get() = (this * resources.displayMetrics.density).toInt()
     // View models
     private val model: RecordingsViewModel by viewModels()
 
     // Views
     private val contentView by lazy { findViewById<View>(android.R.id.content) }
+    private val listHeader by lazy { findViewById<View>(R.id.listHeader) }
     private val listEmptyTextView by lazy { findViewById<TextView>(R.id.listEmptyTextView) }
     private val listLoadingProgressBar by lazy { findViewById<ProgressBar>(R.id.listLoadingProgressBar) }
     private val listRecyclerView by lazy { findViewById<RecyclerView>(R.id.listRecyclerView) }
@@ -191,10 +193,11 @@ class ListActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(contentView) { _, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
+            listHeader.updatePadding(top = insets.top + 12.dp)
             listRecyclerView.updatePadding(
-                bottom = insets.bottom,
-                left = insets.left,
-                right = insets.right,
+                bottom = insets.bottom + 116.dp,
+                left = insets.left + 12.dp,
+                right = insets.right + 12.dp,
             )
 
             windowInsets

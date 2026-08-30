@@ -101,15 +101,20 @@
             android:contentDescription="@string/settings_title"
             android:src="@drawable/ic_settings"
             app:tint="?attr/colorOnSurface" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/floatingActionButton"
-            style="@style/Widget.Material3.FloatingActionButton.Large.Primary"
+            style="@style/Widget.Recorder.Expressive.ExtraLargeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:contentDescription="@string/main_sound_action"
-            android:src="@drawable/ic_mic"
-            app:tint="?attr/colorOnPrimary" />
+            android:elevation="0dp"
+            android:minWidth="88dp"
+            android:minHeight="88dp"
+            android:text=""
+            app:icon="@drawable/ic_mic"
+            app:iconSize="32dp"
+            app:elevation="0dp" />
         <ImageView
             android:id="@+id/openSoundListImageView"
             style="@style/AppTheme.ImageButton"
@@ -118,15 +123,15 @@
             android:contentDescription="@string/sound_last_title"
             android:src="@drawable/ic_library_music"
             app:tint="?attr/colorOnSurface" />
-        <ImageView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/pauseResumeImageView"
-            style="@style/AppTheme.ImageButton"
+            style="@style/Widget.Recorder.Expressive.IconButton"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:contentDescription="@string/pause"
             android:visibility="gone"
-            app:tint="?attr/colorOnSurface"
-            tools:src="@drawable/avd_pause_to_play"
+            app:iconTint="?attr/colorOnSurface"
+            tools:icon="@drawable/avd_pause_to_play"
             tools:visibility="visible" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

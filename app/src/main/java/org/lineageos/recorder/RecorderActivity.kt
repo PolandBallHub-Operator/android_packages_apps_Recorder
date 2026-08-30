@@ -37,7 +37,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import org.lineageos.recorder.models.UiStatus
 import org.lineageos.recorder.service.SoundRecorderService
@@ -62,9 +62,9 @@ class RecorderActivity : AppCompatActivity(R.layout.activity_main) {
     // Views
     private val contentView by lazy { findViewById<View>(android.R.id.content) }
     private val elapsedTimeText by lazy { findViewById<TextView>(R.id.elapsedTimeTextView) }
-    private val floatingActionButton by lazy { findViewById<FloatingActionButton>(R.id.floatingActionButton) }
+    private val floatingActionButton by lazy { findViewById<MaterialButton>(R.id.floatingActionButton) }
     private val openSoundListImageView by lazy { findViewById<ImageView>(R.id.openSoundListImageView) }
-    private val pauseResumeImageView by lazy { findViewById<ImageView>(R.id.pauseResumeImageView) }
+    private val pauseResumeImageView by lazy { findViewById<MaterialButton>(R.id.pauseResumeImageView) }
     private val recordingWaveFormView by lazy { findViewById<WaveFormView>(R.id.recordingWaveFormView) }
     private val settingsImageView by lazy { findViewById<ImageView>(R.id.settingsImageView) }
     private val titleTextView by lazy { findViewById<TextView>(R.id.titleTextView) }
@@ -262,12 +262,12 @@ class RecorderActivity : AppCompatActivity(R.layout.activity_main) {
         uiStatus = status
         if (UiStatus.READY == status) {
             titleTextView.text = getString(R.string.main_sound_action)
-            floatingActionButton.setImageResource(R.drawable.ic_mic)
+            floatingActionButton.setIconResource(R.drawable.ic_mic)
             elapsedTimeText.isVisible = false
             recordingWaveFormView.isVisible = false
             pauseResumeImageView.isVisible = false
         } else {
-            floatingActionButton.setImageResource(R.drawable.ic_stop)
+            floatingActionButton.setIconResource(R.drawable.ic_stop)
             elapsedTimeText.isVisible = true
             recordingWaveFormView.isVisible = true
             recordingWaveFormView.setAmplitude(0)
@@ -283,7 +283,7 @@ class RecorderActivity : AppCompatActivity(R.layout.activity_main) {
                 prDrawable = ContextCompat.getDrawable(this, R.drawable.avd_pause_to_play)
             }
             pauseResumeImageView.tooltipText = pauseResumeImageView.contentDescription
-            pauseResumeImageView.setImageDrawable(prDrawable)
+            pauseResumeImageView.icon = prDrawable
             AnimatedVectorDrawable::class.safeCast(prDrawable)?.start()
         }
     }

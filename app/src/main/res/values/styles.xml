@@ -52,6 +52,14 @@
         <item name="cornerRadius">38dp</item>
     </style>
 
+    <style name="Widget.Recorder.Expressive.IconButton" parent="Widget.Material3Expressive.Button">
+        <item name="android:minWidth">56dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="cornerRadius">28dp</item>
+    </style>
+
     <style name="AppTheme.DialogActivity">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
