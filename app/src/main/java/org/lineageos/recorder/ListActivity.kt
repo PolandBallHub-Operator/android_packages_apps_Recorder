@@ -6,6 +6,7 @@
 package org.lineageos.recorder
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.ActionMode
 import android.view.Menu
@@ -14,12 +15,12 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -54,7 +55,10 @@ class ListActivity : AppCompatActivity() {
     private val listEmptyTextView by lazy { findViewById<TextView>(R.id.listEmptyTextView) }
     private val listLoadingProgressBar by lazy { findViewById<ProgressBar>(R.id.listLoadingProgressBar) }
     private val listRecyclerView by lazy { findViewById<RecyclerView>(R.id.listRecyclerView) }
-    private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
+    private val searchEditText by lazy { findViewById<EditText>(R.id.searchEditText) }
+    private val settingsButton by lazy { findViewById<ImageButton>(R.id.settingsButton) }
+
+    private var allRecordings: List<Recording> = emptyList()
 
     // System services
     private val inputMethodManager by lazy { getSystemService(InputMethodManager::class.java) }
@@ -169,11 +173,16 @@ class ListActivity : AppCompatActivity() {
         // Setup edge-to-edge
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            it.setDisplayShowHomeEnabled(true)
-            it.setDisplayHomeAsUpEnabled(true)
+        settingsButton.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
+        searchEditText.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateFilteredList()
+            }
+            override fun afterTextChanged(s: android.text.Editable?) = Unit
+        })
 
         listRecyclerView.layoutManager = LinearLayoutManager(this)
         listRecyclerView.adapter = recordingsAdapter
@@ -208,11 +217,12 @@ class ListActivity : AppCompatActivity() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.recordings.collectLatest {
-                    recordingsAdapter.submitList(it)
+                    allRecordings = it
+                    updateFilteredList()
 
                     listLoadingProgressBar.isVisible = false
 
-                    val isEmpty = it.isEmpty()
+                    val isEmpty = recordingsAdapter.itemCount == 0
                     changeEmptyView(isEmpty)
                     if (isEmpty) {
                         endSelectionMode()
@@ -223,7 +233,22 @@ class ListActivity : AppCompatActivity() {
     }
 
     fun onPlay(recording: Recording) {
-        startActivity(RecordIntentHelper.getOpenIntent(recording.uri, TYPE_AUDIO))
+        startActivity(
+            Intent(this, PlaybackActivity::class.java)
+                .putExtra(PlaybackActivity.EXTRA_URI, recording.uri.toString())
+                .putExtra(PlaybackActivity.EXTRA_TITLE, recording.title)
+        )
+    }
+
+    private fun updateFilteredList() {
+        val query = searchEditText.text?.toString()?.trim().orEmpty()
+        val filtered = if (query.isEmpty()) {
+            allRecordings
+        } else {
+            allRecordings.filter { it.title.contains(query, ignoreCase = true) }
+        }
+        recordingsAdapter.submitList(filtered)
+        changeEmptyView(filtered.isEmpty())
     }
 
     fun onShare(recording: Recording) {
@@ -319,16 +344,14 @@ class ListActivity : AppCompatActivity() {
     private fun updateSelection() {
         model.inSelectionMode.value = selectionTracker?.hasSelection() == true
 
-        selectionTracker?.selection?.count()?.takeIf { it > 0 }?.let {
-            startSelectionMode().apply {
-                title = resources.getQuantityString(
-                    R.plurals.recording_selection_count, it, it
-                )
-            }
+        selectionTracker?.selection?.size()?.takeIf { count -> count > 0 }?.let { count ->
+            startSelectionMode()?.title = resources.getQuantityString(
+                R.plurals.recording_selection_count, count, count
+            )
         }
     }
 
-    private fun startSelectionMode() = actionMode ?: toolbar.startActionMode(
+    private fun startSelectionMode(): ActionMode? = actionMode ?: contentView.startActionMode(
         actionModeCallback
     ).also {
         actionMode = it

@@ -28,7 +28,7 @@ android {
     buildTypes {
         getByName("release") {
             // Enables code shrinking, obfuscation, and optimization.
-            isMinifyEnabled = true
+            isMinifyEnabled = false
 
             // Includes the default ProGuard rules files.
             setProguardFiles(
@@ -63,7 +63,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.14.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Lifecycle

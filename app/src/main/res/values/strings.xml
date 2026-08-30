@@ -63,6 +63,7 @@
     <!-- Settings -->
     <!-- Settings: dialog title -->
     <string name="settings_title">Settings</string>
+    <string name="settings_recording_section">Recording</string>
     <!-- Settings: tag recordings with current location -->
     <string name="settings_location_message">Tag your recordings with your current position</string>
     <!-- Settings: recording in high quality -->
@@ -120,6 +121,16 @@
     <string name="delete_selected_message">Are you sure you want to delete the selected recordings? This cannot be undone</string>
 
     <!-- Selection -->
+    <string name="playback_title">Playback</string>
+    <string name="search_recordings">Search your recordings</string>
+    <string name="favorites">Favorites</string>
+    <string name="playback_pause">Pause</string>
+    <string name="playback_play">Play</string>
+    <string name="playback_stop">Stop</string>
+    <string name="playback_share">Share recording</string>
+    <string name="playback_delete">Delete recording</string>
+    <string name="playback_position">Playback position</string>
+
     <plurals name="recording_selection_count">
         <item quantity="one">%d selected</item>
         <item quantity="other">%d selected</item>

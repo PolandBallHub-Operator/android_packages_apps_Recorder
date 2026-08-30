@@ -35,10 +35,14 @@ object RecordIntentHelper {
     }
 
     fun getOpenIntent(uri: Uri?, mimeType: String?): Intent {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(uri, mimeType)
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        return intent
+        return Intent().apply {
+            setClassName(
+                "org.lineageos.recorder",
+                "org.lineageos.recorder.PlaybackActivity"
+            )
+            putExtra("playback_uri", uri?.toString())
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
     }
 
     fun getDeleteIntent(context: Context?): Intent {

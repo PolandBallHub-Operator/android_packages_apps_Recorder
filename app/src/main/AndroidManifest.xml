@@ -54,9 +54,19 @@
             android:parentActivityName=".RecorderActivity" />
 
         <activity
+            android:name=".PlaybackActivity"
+            android:label="@string/playback_title"
+            android:parentActivityName=".ListActivity" />
+
+        <activity
             android:name=".DialogActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.DialogActivity" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings_title"
+            android:parentActivityName=".ListActivity" />
 
         <!-- Sound recorder -->
         <service
