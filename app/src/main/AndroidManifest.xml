@@ -29,17 +29,10 @@
             android:name=".RecorderActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.PHONE_STATE" />
                 <action android:name="android.provider.MediaStore.RECORD_SOUND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
@@ -50,8 +43,17 @@
 
         <activity
             android:name=".ListActivity"
+            android:exported="true"
             android:label="@string/list_title"
-            android:parentActivityName=".RecorderActivity" />
+            android:parentActivityName=".RecorderActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
 
         <activity
             android:name=".PlaybackActivity"

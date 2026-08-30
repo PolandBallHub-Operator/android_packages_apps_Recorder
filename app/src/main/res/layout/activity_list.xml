@@ -18,27 +18,13 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="64dp">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/searchInputLayout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/searchBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="56dp"
                 android:hint="@string/search_recordings"
-                app:startIconDrawable="@drawable/ic_search"
-                app:boxCornerRadiusTopStart="28dp"
-                app:boxCornerRadiusTopEnd="28dp"
-                app:boxCornerRadiusBottomStart="28dp"
-                app:boxCornerRadiusBottomEnd="28dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/searchEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingEnd="16dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:strokeWidth="0dp" />
             <ImageButton
                 android:id="@+id/settingsButton"
                 android:layout_width="52dp"
@@ -114,8 +100,22 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingHorizontal="12dp"
+        android:paddingBottom="116dp"
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/list_item"
         tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/homeRecordButton"
+        style="@style/Widget.Recorder.Expressive.ExtraLargeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:elevation="0dp"
+        android:text="@string/main_sound_action"
+        android:textSize="18sp"
+        app:icon="@drawable/ic_mic"
+        app:iconGravity="textStart" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

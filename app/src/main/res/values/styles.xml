@@ -12,6 +12,7 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
         <item name="alertDialogTheme">@style/Theme.Recorder.AlertDialog</item>
         <item name="materialAlertDialogTheme">@style/Theme.Recorder.AlertDialog</item>
+        <item name="materialSearchBarStyle">@style/Widget.Material3Expressive.SearchBar</item>
         <item name="windowActionModeOverlay">true</item>
         <!-- Material 3 Expressive: stronger hierarchy and shape contrast. -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Recorder.Expressive.Small</item>
@@ -40,6 +41,15 @@
 
     <style name="TextAppearance.Recorder.Expressive.Title" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- M3 Expressive extra-large action: oversized, pill-shaped, and shadowless. -->
+    <style name="Widget.Recorder.Expressive.ExtraLargeButton" parent="Widget.Material3Expressive.Button">
+        <item name="android:minHeight">76dp</item>
+        <item name="android:minWidth">220dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="cornerRadius">38dp</item>
     </style>
 
     <style name="AppTheme.DialogActivity">

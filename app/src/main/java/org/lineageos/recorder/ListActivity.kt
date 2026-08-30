@@ -21,6 +21,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -36,6 +37,7 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.search.SearchBar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.lineageos.recorder.ext.scheduleShowSoftInput
@@ -55,10 +57,12 @@ class ListActivity : AppCompatActivity() {
     private val listEmptyTextView by lazy { findViewById<TextView>(R.id.listEmptyTextView) }
     private val listLoadingProgressBar by lazy { findViewById<ProgressBar>(R.id.listLoadingProgressBar) }
     private val listRecyclerView by lazy { findViewById<RecyclerView>(R.id.listRecyclerView) }
-    private val searchEditText by lazy { findViewById<EditText>(R.id.searchEditText) }
+    private val searchBar by lazy { findViewById<SearchBar>(R.id.searchBar) }
     private val settingsButton by lazy { findViewById<ImageButton>(R.id.settingsButton) }
+    private val homeRecordButton by lazy { findViewById<com.google.android.material.button.MaterialButton>(R.id.homeRecordButton) }
 
     private var allRecordings: List<Recording> = emptyList()
+    private var activeQuery = ""
 
     // System services
     private val inputMethodManager by lazy { getSystemService(InputMethodManager::class.java) }
@@ -176,13 +180,10 @@ class ListActivity : AppCompatActivity() {
         settingsButton.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
-        searchEditText.addTextChangedListener(object : android.text.TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                updateFilteredList()
-            }
-            override fun afterTextChanged(s: android.text.Editable?) = Unit
-        })
+        searchBar.setOnClickListener { openSearchDialog() }
+        homeRecordButton.setOnClickListener {
+            startActivity(Intent(this, RecorderActivity::class.java))
+        }
 
         listRecyclerView.layoutManager = LinearLayoutManager(this)
         listRecyclerView.adapter = recordingsAdapter
@@ -241,7 +242,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun updateFilteredList() {
-        val query = searchEditText.text?.toString()?.trim().orEmpty()
+        val query = activeQuery.trim()
         val filtered = if (query.isEmpty()) {
             allRecordings
         } else {
@@ -249,6 +250,29 @@ class ListActivity : AppCompatActivity() {
         }
         recordingsAdapter.submitList(filtered)
         changeEmptyView(filtered.isEmpty())
+    }
+
+    private fun openSearchDialog() {
+        val searchView = SearchView(this).apply {
+            queryHint = getString(R.string.search_recordings)
+            setQuery(activeQuery, false)
+            setIconifiedByDefault(false)
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?) = true
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    activeQuery = newText.orEmpty()
+                    searchBar.setText(if (activeQuery.isBlank()) getString(R.string.search_recordings) else activeQuery)
+                    updateFilteredList()
+                    return true
+                }
+            })
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.search_recordings)
+            .setView(searchView)
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+        searchView.requestFocus()
     }
 
     fun onShare(recording: Recording) {

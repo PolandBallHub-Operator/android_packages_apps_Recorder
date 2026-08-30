@@ -85,6 +85,7 @@ class RecordingsAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // Views
         private val dateTextView by lazy { itemView.findViewById<TextView>(R.id.dateTextView) }
+        private val durationTextView by lazy { itemView.findViewById<TextView>(R.id.durationTextView) }
         private val menuImageView by lazy { itemView.findViewById<ImageView>(R.id.menuImageView) }
         private val playImageView by lazy { itemView.findViewById<ImageView>(R.id.playImageView) }
         private val titleTextView by lazy { itemView.findViewById<TextView>(R.id.titleTextView) }
@@ -130,6 +131,10 @@ class RecordingsAdapter(
                 Locale.getDefault(), SUMMARY_FORMAT,
                 dateFormatter.format(recording.dateAdded),
                 timeFormatter.format(recording.dateAdded)
+            )
+            val totalSeconds = (recording.duration / 1000L).coerceAtLeast(0L)
+            durationTextView.text = String.format(
+                Locale.getDefault(), "%02d:%02d", totalSeconds / 60L, totalSeconds % 60L
             )
 
             updateSelection()
