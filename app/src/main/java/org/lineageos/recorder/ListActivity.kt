@@ -12,6 +12,7 @@ import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -194,6 +195,11 @@ class ListActivity : AppCompatActivity() {
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
             listHeader.updatePadding(top = insets.top + 12.dp)
+            listHeader.post {
+                val params = listRecyclerView.layoutParams as ViewGroup.MarginLayoutParams
+                params.topMargin = listHeader.height
+                listRecyclerView.layoutParams = params
+            }
             listRecyclerView.updatePadding(
                 bottom = insets.bottom + 116.dp,
                 left = insets.left + 12.dp,
@@ -396,7 +402,8 @@ class ListActivity : AppCompatActivity() {
 
     private fun changeEmptyView(isEmpty: Boolean) {
         listEmptyTextView.isVisible = isEmpty
-        listRecyclerView.isVisible = !isEmpty
+        // Keep the list mounted directly below the SearchBar even when the query is empty.
+        listRecyclerView.isVisible = true
     }
 
     private fun promptDeleteAllRecordings() {

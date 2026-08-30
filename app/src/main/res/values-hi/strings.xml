@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">रिकॉर्डर</string>
+    <string name="settings_title">सेटिंग</string>
+    <string name="settings_recording_section">रिकॉर्डिंग</string>
+    <string name="settings_location_message">रिकॉर्डिंग में वर्तमान स्थान जोड़ें</string>
+    <string name="settings_quality_high">उच्च गुणवत्ता में रिकॉर्ड करें</string>
+    <string name="settings_options_section">रिकॉर्डिंग सेटिंग</string>
+    <string name="settings_auto_pause">कॉल शुरू होने पर रिकॉर्डिंग रोकें</string>
+    <string name="settings_keep_screen_on">रिकॉर्डिंग के दौरान स्क्रीन चालू रखें</string>
+    <string name="settings_show_waveform">रिकॉर्डिंग के दौरान वेवफॉर्म दिखाएं</string>
+    <string name="recording_manners_message">रिकॉर्ड करते समय शिष्टाचार और मर्यादा का पालन करें</string>
+    <string name="main_sound_action">आवाज़ रिकॉर्ड करें</string>
+    <string name="list_title">रिकॉर्डिंग</string>
+    <string name="list_error_empty">रिकॉर्ड करते समय शिष्टाचार और मर्यादा का पालन करें</string>
+    <string name="search_recordings">रिकॉर्डिंग खोजें</string>
+    <string name="favorites">पसंदीदा</string>
+    <string name="play">चलाएं</string>
+    <string name="pause">रोकें</string>
+    <string name="resume">फिर शुरू करें</string>
+    <string name="stop">बंद करें</string>
+    <string name="cancel">रद्द करें</string>
+</resources>

@@ -27,6 +27,18 @@ class PreferencesManager(context: Context) {
                 .apply()
         }
 
+    var pauseOnCall: Boolean
+        get() = preferences.getBoolean(PREF_PAUSE_ON_CALL, true)
+        set(value) = preferences.edit().putBoolean(PREF_PAUSE_ON_CALL, value).apply()
+
+    var keepScreenOn: Boolean
+        get() = preferences.getBoolean(PREF_KEEP_SCREEN_ON, true)
+        set(value) = preferences.edit().putBoolean(PREF_KEEP_SCREEN_ON, value).apply()
+
+    var showWaveform: Boolean
+        get() = preferences.getBoolean(PREF_SHOW_WAVEFORM, true)
+        set(value) = preferences.edit().putBoolean(PREF_SHOW_WAVEFORM, value).apply()
+
     var onboardSettingsCounter: Int
         get() = preferences.getInt(PREF_ONBOARD_SETTINGS_COUNTER, 0)
         set(value) {
@@ -61,5 +73,8 @@ class PreferencesManager(context: Context) {
         private const val PREF_ONBOARD_SETTINGS_COUNTER = "onboard_settings"
         private const val PREF_ONBOARD_SOUND_LIST_COUNTER = "onboard_list"
         private const val PREF_LAST_SOUND = "sound_last_path"
+        private const val PREF_PAUSE_ON_CALL = "pause_on_call"
+        private const val PREF_KEEP_SCREEN_ON = "keep_screen_on"
+        private const val PREF_SHOW_WAVEFORM = "show_waveform"
     }
 }

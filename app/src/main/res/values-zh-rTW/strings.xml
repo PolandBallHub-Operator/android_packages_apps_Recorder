@@ -31,7 +31,13 @@
     <string name="sound_channel_title">錄音中</string>
     <string name="sound_channel_desc">在錄音完後保持通知</string>
     <string name="settings_title">設定</string>
-    <string name="settings_location_message">以您目前的位置標記您的錄音</string>
+    <string name="settings_location_message">為錄音新增目前位置</string>
+    <string name="settings_recording_section">錄音</string>
+    <string name="settings_options_section">錄音設定</string>
+    <string name="settings_auto_pause">通話開始時暫停錄音</string>
+    <string name="settings_keep_screen_on">錄音時保持螢幕開啟</string>
+    <string name="settings_show_waveform">錄音時顯示波形</string>
+    <string name="recording_manners_message">錄音時請遵守禮儀與道德規範</string>
     <string name="settings_quality_high">高音質錄音</string>
     <string name="dialog_permissions_title">權限</string>
     <string name="dialog_permissions_mic">錄製工具需要麥克風錄製音訊的權限</string>
@@ -47,8 +53,10 @@
     <string name="snack_permissions_no_permission">所需權限被拒，請在設定中啟用以開始錄音</string>
     <string name="snack_permissions_no_permission_location">位置許可權被拒絕，請在設定中將其啟用以標記您的錄音</string>
     <string name="main_sound_action">錄音</string>
-    <string name="list_title">我的錄音</string>
-    <string name="list_error_empty">您的所有錄音檔案都會顯示在這裡</string>
+    <string name="list_title">錄音</string>
+    <string name="list_error_empty">錄音時請遵守禮儀與道德規範</string>
+    <string name="search_recordings">搜尋錄音</string>
+    <string name="favorites">我的最愛</string>
     <string name="list_edit_title">編輯錄音名稱</string>
     <string name="list_edit_confirm">更改</string>
     <string name="list_item_menu">更多操作</string>

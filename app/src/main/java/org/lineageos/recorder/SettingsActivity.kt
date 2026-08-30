@@ -21,9 +21,15 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
         toolbar.setNavigationOnClickListener { finish() }
         locationSwitch = findViewById(R.id.settingsLocationSwitch)
         val qualitySwitch = findViewById<MaterialSwitch>(R.id.settingsQualitySwitch)
+        val pauseOnCallSwitch = findViewById<MaterialSwitch>(R.id.settingsAutoPauseSwitch)
+        val keepScreenOnSwitch = findViewById<MaterialSwitch>(R.id.settingsKeepScreenOnSwitch)
+        val showWaveformSwitch = findViewById<MaterialSwitch>(R.id.settingsShowWaveformSwitch)
 
         locationSwitch.isChecked = preferences.tagWithLocation && permissions.hasLocationPermission()
         qualitySwitch.isChecked = preferences.recordInHighQuality
+        pauseOnCallSwitch.isChecked = preferences.pauseOnCall
+        keepScreenOnSwitch.isChecked = preferences.keepScreenOn
+        showWaveformSwitch.isChecked = preferences.showWaveform
 
         locationSwitch.setOnCheckedChangeListener { _: CompoundButton?, checked: Boolean ->
             if (checked && !permissions.hasLocationPermission()) {
@@ -34,6 +40,15 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
         }
         qualitySwitch.setOnCheckedChangeListener { _: CompoundButton?, checked: Boolean ->
             preferences.recordInHighQuality = checked
+        }
+        pauseOnCallSwitch.setOnCheckedChangeListener { _: CompoundButton?, checked: Boolean ->
+            preferences.pauseOnCall = checked
+        }
+        keepScreenOnSwitch.setOnCheckedChangeListener { _: CompoundButton?, checked: Boolean ->
+            preferences.keepScreenOn = checked
+        }
+        showWaveformSwitch.setOnCheckedChangeListener { _: CompoundButton?, checked: Boolean ->
+            preferences.showWaveform = checked
         }
     }
 

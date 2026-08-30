@@ -85,15 +85,16 @@
 
     <TextView
         android:id="@+id/listEmptyTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:drawablePadding="8dp"
-        android:text="@string/list_error_empty"
+        android:layout_marginHorizontal="32dp"
+        android:gravity="center"
+        android:text="@string/recording_manners_message"
+        android:textAppearance="@style/TextAppearance.Recorder.Expressive.Title"
         android:textColor="?attr/colorOnSurfaceVariant"
-        android:visibility="gone"
-        app:drawableTint="?attr/colorOnSurface"
-        app:drawableTopCompat="@drawable/ic_empty_list" />
+        android:textSize="20sp"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRecyclerView"

@@ -68,6 +68,11 @@
     <string name="settings_location_message">Tag your recordings with your current position</string>
     <!-- Settings: recording in high quality -->
     <string name="settings_quality_high">Record in high quality</string>
+    <string name="settings_options_section">Recording options</string>
+    <string name="settings_auto_pause">Pause recording when a call starts</string>
+    <string name="settings_keep_screen_on">Keep screen on while recording</string>
+    <string name="settings_show_waveform">Show recording waveform</string>
+    <string name="recording_manners_message">Please respect manners and etiquette when recording</string>
 
     <!-- Permissions -->
     <!-- Permissions dialog title -->
@@ -104,7 +109,7 @@
     <!-- List activity -->
     <!-- List activity title -->
     <string name="list_title">My recordings</string>
-    <string name="list_error_empty">All your recordings will be shown here</string>
+    <string name="list_error_empty">Please respect manners and etiquette when recording</string>
     <!-- Edit recording title -->
     <string name="list_edit_title">Edit recording name</string>
     <!-- Edit recording confirm action -->
