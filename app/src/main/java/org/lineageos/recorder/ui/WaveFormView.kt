@@ -7,10 +7,9 @@ import android.util.AttributeSet
 import android.view.View
 import com.google.android.material.color.MaterialColors
 import org.lineageos.recorder.R
-import kotlin.math.abs
-import kotlin.math.sin
+import kotlin.math.max
 
-/** Live waveform rendered with the same bar language as PlaybackWaveformView. */
+/** Fixed-density live waveform. The ring buffer always renders exactly 72 bars. */
 class WaveFormView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -20,8 +19,9 @@ class WaveFormView @JvmOverloads constructor(
     private val idleAmplitude: Float
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.ROUND }
     private val ampLock = Any()
+    private val samples = FloatArray(BAR_COUNT) { MIN_AMPLITUDE }
+    private var writeIndex = 0
     private var amplitude: Float
-    private var phase = 0f
 
     init {
         val ta = context.resources.obtainAttributes(attrs, R.styleable.WaveFormView)
@@ -37,33 +37,35 @@ class WaveFormView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val active = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondary)
-        val bars = DEFAULT_BAR_COUNT
-        val step = width.toFloat() / (bars + 1)
+        val color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondary)
+        val step = width.toFloat() / (BAR_COUNT + 1)
         val centerY = height / 2f
-        val currentAmplitude = synchronized(ampLock) { amplitude }.coerceIn(0.04f, 1f)
-        paint.strokeWidth = (resources.displayMetrics.density * 4f).coerceAtLeast(3f)
-        for (index in 0 until bars) {
-            val x = step * (index + 1)
-            val normalized = index.toFloat() / bars
-            val profile = 0.16f + 0.84f * abs(sin(normalized * Math.PI * 2.7 + phase)).toFloat()
-            val barHeight = (height * 0.44f * profile * currentAmplitude).coerceAtLeast(6f)
-            paint.color = active
-            canvas.drawLine(x, centerY - barHeight, x, centerY + barHeight, paint)
+        paint.color = color
+        paint.strokeWidth = max(3f, resources.displayMetrics.density * 4f)
+        synchronized(ampLock) {
+            for (offset in 0 until BAR_COUNT) {
+                val index = (writeIndex + offset) % BAR_COUNT
+                val barHeight = (height * 0.44f * samples[index]).coerceAtLeast(6f)
+                val x = step * (offset + 1)
+                canvas.drawLine(x, centerY - barHeight, x, centerY + barHeight, paint)
+            }
         }
-        phase += 0.025f
-        postInvalidateOnAnimation()
     }
 
+    /** Appends one live amplitude sample; bar count and line width never change. */
     fun setAmplitude(amplitude: Int) {
         synchronized(ampLock) {
             this.amplitude = (amplitude / maxAudioValue).coerceIn(0f, idleAmplitude)
+            samples[writeIndex] = this.amplitude.coerceIn(MIN_AMPLITUDE, 1f)
+            writeIndex = (writeIndex + 1) % BAR_COUNT
         }
+        postInvalidateOnAnimation()
     }
 
     companion object {
-        private const val DEFAULT_BAR_COUNT = 72
+        private const val BAR_COUNT = 72
         private const val DEFAULT_MAX_AUDIO_VALUE = 1500
         private const val DEFAULT_AMPLITUDE = 1f
+        private const val MIN_AMPLITUDE = 0.04f
     }
 }

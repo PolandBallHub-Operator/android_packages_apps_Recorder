@@ -15,10 +15,21 @@ class PlaybackWaveformView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.ROUND }
     private var playbackProgress = 0f
-    private var amplitudes = FloatArray(0)
+    private var amplitudes = FloatArray(BAR_COUNT) { MIN_AMPLITUDE }
 
+    /** Resamples any recording length to the same fixed 72 display bars. */
     fun setAmplitudes(values: FloatArray) {
-        amplitudes = values.copyOf()
+        if (values.isNotEmpty()) {
+            amplitudes = FloatArray(BAR_COUNT) { index ->
+                val start = index * values.size / BAR_COUNT
+                val end = ((index + 1) * values.size / BAR_COUNT).coerceAtLeast(start + 1)
+                var peak = MIN_AMPLITUDE
+                for (sample in start until end.coerceAtMost(values.size)) {
+                    peak = max(peak, values[sample])
+                }
+                peak.coerceIn(MIN_AMPLITUDE, 1f)
+            }
+        }
         invalidate()
     }
 
@@ -26,14 +37,13 @@ class PlaybackWaveformView @JvmOverloads constructor(
         super.onDraw(canvas)
         val active = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondary)
         val inactive = MaterialColors.getColor(this, com.google.android.material.R.attr.colorOutlineVariant)
-        val bars = if (amplitudes.isNotEmpty()) amplitudes else FloatArray(DEFAULT_BAR_COUNT) { 0.12f }
-        val step = width.toFloat() / (bars.size + 1)
+        val step = width.toFloat() / (BAR_COUNT + 1)
         val centerY = height / 2f
         paint.strokeWidth = max(3f, resources.displayMetrics.density * 4f)
-        bars.forEachIndexed { index, amplitude ->
+        for (index in 0 until BAR_COUNT) {
             val x = step * (index + 1)
-            val normalized = index.toFloat() / bars.size
-            val barHeight = (height * 0.44f * amplitude.coerceIn(0.04f, 1f)).coerceAtLeast(6f)
+            val normalized = index.toFloat() / BAR_COUNT
+            val barHeight = (height * 0.44f * amplitudes[index]).coerceAtLeast(6f)
             paint.color = if (normalized <= playbackProgress) active else inactive
             canvas.drawLine(x, centerY - barHeight, x, centerY + barHeight, paint)
         }
@@ -45,6 +55,7 @@ class PlaybackWaveformView @JvmOverloads constructor(
     }
 
     companion object {
-        private const val DEFAULT_BAR_COUNT = 72
+        private const val BAR_COUNT = 72
+        private const val MIN_AMPLITUDE = 0.04f
     }
 }
