@@ -14,9 +14,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.Slider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.lineageos.recorder.ui.PlaybackWaveformView
+import org.lineageos.recorder.ui.WaveformExtractor
 
 class PlaybackActivity : AppCompatActivity(R.layout.activity_playback) {
     private val toolbar by lazy { findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.playbackToolbar) }
@@ -66,6 +71,13 @@ class PlaybackActivity : AppCompatActivity(R.layout.activity_playback) {
 
     private fun preparePlayer(uriString: String?) {
         val uri = uriString?.let(Uri::parse) ?: return
+        lifecycleScope.launch(Dispatchers.IO) {
+            val values = runCatching { WaveformExtractor.extract(this@PlaybackActivity, uri) }
+                .getOrDefault(FloatArray(0))
+            withContext(Dispatchers.Main) {
+                if (!isFinishing && !isDestroyed) waveform.setAmplitudes(values)
+            }
+        }
         player = MediaPlayer().apply {
             setDataSource(this@PlaybackActivity, uri)
             setOnPreparedListener {

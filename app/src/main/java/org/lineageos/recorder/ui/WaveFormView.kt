@@ -1,147 +1,69 @@
-/*
- * SPDX-FileCopyrightText: The LineageOS Project
- * SPDX-License-Identifier: Apache-2.0
- */
-
 package org.lineageos.recorder.ui
 
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import androidx.annotation.ColorInt
 import com.google.android.material.color.MaterialColors
 import org.lineageos.recorder.R
-import kotlin.math.pow
+import kotlin.math.abs
 import kotlin.math.sin
 
+/** Live waveform rendered with the same bar language as PlaybackWaveformView. */
 class WaveFormView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr) {
     private val maxAudioValue: Float
-    private val numOfWaves: Int
-    private val density: Float
     private val idleAmplitude: Float
-    private val frequency: Float
-    private val phaseShift: Float
-
-    @ColorInt
-    private val wavesColor: Int
-    private val paint: Paint
-    private val path = Path()
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeCap = Paint.Cap.ROUND }
     private val ampLock = Any()
     private var amplitude: Float
     private var phase = 0f
 
     init {
-        val ta = context.resources.obtainAttributes(
-            attrs,
-            R.styleable.WaveFormView
-        )
-
+        val ta = context.resources.obtainAttributes(attrs, R.styleable.WaveFormView)
         maxAudioValue = ta.getInt(
-            R.styleable.WaveFormView_maxAudioValue,
-            DEFAULT_MAX_AUDIO_VALUE
+            R.styleable.WaveFormView_maxAudioValue, DEFAULT_MAX_AUDIO_VALUE
         ).toFloat()
-
-        numOfWaves = ta.getInt(
-            R.styleable.WaveFormView_numOfWaves,
-            DEFAULT_NUMBER_OF_WAVES
-        )
-
-        density = ta.getFloat(
-            R.styleable.WaveFormView_density,
-            DEFAULT_DENSITY
-        )
-
         amplitude = ta.getFloat(
-            R.styleable.WaveFormView_defaultAmplitude,
-            DEFAULT_AMPLITUDE
+            R.styleable.WaveFormView_defaultAmplitude, DEFAULT_AMPLITUDE
         )
-
         idleAmplitude = amplitude
-
-        frequency = ta.getFloat(
-            R.styleable.WaveFormView_defaultFrequency,
-            DEFAULT_FREQUENCY
-        )
-
-        phaseShift = ta.getFloat(
-            R.styleable.WaveFormView_defaultPhaseShift,
-            DEFAULT_PHASE_SHIFT
-        )
-
-        wavesColor = MaterialColors.getColor(
-            this, com.google.android.material.R.attr.colorSecondary
-        )
-
-        paint = Paint()
-        paint.color = wavesColor
-        paint.style = Paint.Style.FILL_AND_STROKE
-        paint.strokeWidth = 1f
-        paint.isAntiAlias = true
-
         ta.recycle()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        phase = 0f
-    }
-
     override fun onDraw(canvas: Canvas) {
-        val height = height.toFloat()
-        val width = width.toFloat()
-        val halfHeight = height / 2f
-        val halfWidth = width / 2f
-        val maxAmplitude = halfHeight - 4f
-        val amplitude = synchronized(ampLock) { amplitude }
-
-        for (i in 0 until numOfWaves) {
-            val progress = 1f - i / numOfWaves.toFloat()
-            val normalizedAmplitude = (1.5f * progress - 0.5f) * amplitude
-            path.reset()
-            var x = 0f
-            while (x < width + density) {
-                val scale =
-                    -(1 / halfWidth * (x - halfWidth)).toDouble().pow(2.0).toFloat() + 1f
-                val y = halfHeight + scale *
-                        maxAmplitude *
-                        normalizedAmplitude * sin(2 * Math.PI * (x / width) * frequency + phase)
-                    .toFloat()
-                if (x == 0f) {
-                    path.moveTo(x, y)
-                } else {
-                    path.lineTo(x, y)
-                }
-                x += density
-            }
-            canvas.drawPath(path, paint)
+        super.onDraw(canvas)
+        val active = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSecondary)
+        val bars = DEFAULT_BAR_COUNT
+        val step = width.toFloat() / (bars + 1)
+        val centerY = height / 2f
+        val currentAmplitude = synchronized(ampLock) { amplitude }.coerceIn(0.04f, 1f)
+        paint.strokeWidth = (resources.displayMetrics.density * 4f).coerceAtLeast(3f)
+        for (index in 0 until bars) {
+            val x = step * (index + 1)
+            val normalized = index.toFloat() / bars
+            val profile = 0.16f + 0.84f * abs(sin(normalized * Math.PI * 2.7 + phase)).toFloat()
+            val barHeight = (height * 0.44f * profile * currentAmplitude).coerceAtLeast(6f)
+            paint.color = active
+            canvas.drawLine(x, centerY - barHeight, x, centerY + barHeight, paint)
         }
-
-        phase += phaseShift
-
-        invalidate()
+        phase += 0.025f
+        postInvalidateOnAnimation()
     }
 
     fun setAmplitude(amplitude: Int) {
         synchronized(ampLock) {
-            this.amplitude =
-                (amplitude / maxAudioValue).coerceAtMost(idleAmplitude)
+            this.amplitude = (amplitude / maxAudioValue).coerceIn(0f, idleAmplitude)
         }
     }
 
     companion object {
-        private const val DEFAULT_NUMBER_OF_WAVES = 5
+        private const val DEFAULT_BAR_COUNT = 72
         private const val DEFAULT_MAX_AUDIO_VALUE = 1500
-        private const val DEFAULT_FREQUENCY = 1.5f
         private const val DEFAULT_AMPLITUDE = 1f
-        private const val DEFAULT_PHASE_SHIFT = -0.2f
-        private const val DEFAULT_DENSITY = 5f
     }
 }
