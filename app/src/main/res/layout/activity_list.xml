@@ -41,7 +41,6 @@
             </com.google.android.material.textfield.TextInputLayout>
             <ImageButton
                 android:id="@+id/settingsButton"
-                style="@style/Widget.Material3Expressive.Button.IconButton.Standard"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_gravity="end|center_vertical"
